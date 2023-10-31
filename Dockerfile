@@ -1,13 +1,17 @@
-# Use an official Ubuntu as a parent image
-FROM ubuntu:latest
+# Use the official Golang image as the base image
+FROM golang:latest
 
-# Install required packages
-RUN apt-get update && apt-get install -y \
-    dnsutils \
-    dnsperf
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy the DNS performance testing configuration file
-COPY dnsperf.janwiebe.eu .
+# Install the github.com/MickaelBergem/dnsstress package
+RUN go get -u github.com/MickaelBergem/dnsstress@latest
 
-# Run the DNS performance test when the container starts
-CMD ["dnsperf", "-s", "janwiebe.eu", "-d", "dnsperf.janwiebe.eu"]
+# Copy the Go source code to the container
+COPY main.go .
+
+# Build the Go application
+RUN go build main.go
+
+# Run the Go application when the container starts
+CMD ["./main"]
