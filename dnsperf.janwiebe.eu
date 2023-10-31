@@ -1,3 +1,2 @@
-QPS 1000000
-# janwiebe.eu NS records
-www.janwiebe.eu
+QPS 10000
+A janwiebe.eu
